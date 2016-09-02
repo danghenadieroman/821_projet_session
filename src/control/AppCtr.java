@@ -6,6 +6,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import persistence.HibernateUtil;
+import view.FenPrincipale;
 
 /**
  *
@@ -18,21 +19,19 @@ public class AppCtr {
      */
     public static void main(String[] args) {
 
-        Session session = HibernateUtil.currentSession();
-        Transaction tx = session.beginTransaction();
-
-        Vacance o1 = new Vacance();
-
-        o1.setCodePostale("nnnnnn");
-        o1.setAvionBilletAvion(100);
-        o1.setAvionStationnementAerogare(55);
-        o1.setTransportLocationVoiture(300);
+        FenPrincipale fenetre = new FenPrincipale();
         
-        session.save(o1);
-
-        tx.commit();
-        HibernateUtil.closeSession();
-        HibernateUtil.sessionFactory.close();
+        
+//        Session session = HibernateUtil.currentSession();
+//        Transaction tx = session.beginTransaction();
+//
+//        Vacance objet = new Vacance();
+//
+//        session.save(objet);
+//
+//        tx.commit();
+//        HibernateUtil.closeSession();
+//        HibernateUtil.sessionFactory.close();
 
     }
 

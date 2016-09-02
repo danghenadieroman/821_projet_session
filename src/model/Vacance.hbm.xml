@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="model.Vacance" table="VACANCE">
+        <id name="id" column="id" type="int" unsaved-value="null">
+            <generator class="native"/>
+        </id>
+        <property name="codePostale" column="code_Postale" type="string"/>
+        <property name="avionBilletAvion" column="avion_Billet_Avion" type="double"/>
+        <property name="avionStationnementAerogare" column="avion_Stationnement_Aerogare" type="double"/>
+        <property name="transportLocationVoiture" column="transport_LocationVoiture" type="double"/>
+        <property name="transportCarburant" column="transport_Carburant" type="double"/>
+        <property name="transportBilletTrain" column="transport_Billet_Train" type="double"/>
+        <property name="transportTaxi" column="transport_Taxi" type="double"/>
+        <property name="hebergementMotel" column="hebergement_Motel" type="double"/>
+        <property name="hebergementNourriture" column="hebergement_Nourriture" type="double"/>
+        <property name="activiteToursOrganises" column="activite_Tours_Organises" type="double"/>
+        <property name="activiteVieNocturne" column="activite_Vie_Nocturne" type="double"/>
+        <property name="activiteShopping" column="activite_Shopping" type="double"/>
+        <property name="activiteAutresActivites" column="activite_Autres_Activites" type="double"/>
+        <property name="croisierePrixCroisiere" column="croisiere_Prix_Croisiere" type="double"/>
+        <property name="croisiereNourriture" column="croisiere_Nourriture" type="double"/>
+        <property name="croisiereBreuvage" column="croisiere_Breuvage" type="double"/>
+        <property name="autreAssurance" column="autre_Assurance" type="double"/>
+        <property name="autreDocuments" column="autre_Documents" type="double"/>
+        <property name="autreImmunisation" column="autre_Immunisation" type="double"/>
+        <property name="autreInternet" column="autre_Internet" type="double"/>
+        <property name="autreBagages" column="autre_Bagages" type="double"/>
+        <property name="autreFraisDivers" column="autre_Frais_Divers" type="double"/>
+    </class>
+</hibernate-mapping>

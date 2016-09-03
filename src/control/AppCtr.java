@@ -1,16 +1,13 @@
 package control;
 
-import java.util.logging.Level;
-import model.Vacance;
-import org.hibernate.Hibernate;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import persistence.HibernateUtil;
 import view.FenPrincipale;
 
 /**
  *
- * @author Administrateur
+ * @author Dan-Ghenadie Roman - 1395945
+ * @version 1.0 - projet session
+ * @date 03/09/2016
+ * @420-821-BB gr.000212
  */
 public class AppCtr {
 
@@ -20,18 +17,6 @@ public class AppCtr {
     public static void main(String[] args) {
 
         FenPrincipale fenetre = new FenPrincipale();
-        
-        
-//        Session session = HibernateUtil.currentSession();
-//        Transaction tx = session.beginTransaction();
-//
-//        Vacance objet = new Vacance();
-//
-//        session.save(objet);
-//
-//        tx.commit();
-//        HibernateUtil.closeSession();
-//        HibernateUtil.sessionFactory.close();
 
     }
 

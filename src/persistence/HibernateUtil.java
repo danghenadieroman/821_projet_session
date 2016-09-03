@@ -9,7 +9,6 @@ import org.hibernate.cfg.Configuration;
 
 public class HibernateUtil {
 
-
     public static final SessionFactory sessionFactory;
 
     static {
@@ -38,21 +37,18 @@ public class HibernateUtil {
 
     public static void closeSession() throws HibernateException {
         Session s = (Session) session.get();
-        if (s != null)
+        if (s != null) {
             s.close();
+        }
         session.set(null);
     }
 
-
-
-    public static void afficheData(Object listing){
-        System.out.println(((List)listing).size() + " enregistrements(s) trouvés:");
-        Iterator iter = ((List)listing).iterator();
-        while ( iter.hasNext()) {
-//            List perTemp = (List) iter.next();
+    public static void afficherData(Object listing) {
+        System.out.println(((List) listing).size() + " enregistrements(s) trouvés:");
+        Iterator iter = ((List) listing).iterator();
+        while (iter.hasNext()) {
             System.out.println(iter.next());
         }
     }
-
 
 }

@@ -2,7 +2,6 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -376,7 +375,7 @@ public class FenPrincipale extends JFrame {
         lblResultatCalcule.setHorizontalAlignment(SwingConstants.RIGHT);
         jpResultatCalcule.add(txtResultatCalcule);
         lblResultatCalcule.setFont(new Font("Verdana", Font.BOLD, 14));
-        lblResultatCalcule.setForeground(Color.WHITE);
+        lblResultatCalcule.setForeground(Color.BLUE);
         lblResultatCalcule.setBorder(BorderFactory.createLineBorder(Color.WHITE));
         jpResultatCalcule.setBackground(Color.GRAY);
 
@@ -397,6 +396,9 @@ public class FenPrincipale extends JFrame {
         setResizable(true);
         setVisible(true);
 
+        //initialiser touts les champs à zéro
+        champsAZero();
+
         //  =================================
         // Listeners boutons =================================
         btnCalculer.addActionListener(new ActionListener() {
@@ -404,37 +406,50 @@ public class FenPrincipale extends JFrame {
             public void actionPerformed(ActionEvent ae) {
 
                 boolean formulaireValide = true;
-  
+                double totalBudget = 0;
+
                 Session session = HibernateUtil.currentSession();
                 Transaction tx = session.beginTransaction();
 
                 Vacance objet = new Vacance();
 
+                //code postal
                 String codePostal = txtCodePostale.getText().trim();
-                objet.setCodePostale(codePostal);
+                if (codePostal.length() == 0) {
+                    JOptionPane.showMessageDialog(null, "Code postale est obligatoire", "Formulaire invalide!",
+                            JOptionPane.ERROR_MESSAGE);
+                } else if (codePostal.length() < 6) {
+                    JOptionPane.showMessageDialog(null, "Code postale mal remplis", "Formulaire invalide!",
+                            JOptionPane.ERROR_MESSAGE);
+                } else {
+                    objet.setCodePostale(codePostal);
 
+                }
+
+                //prix billet avion
                 double billetAvion = 0;
                 if (isNumeric(txtAvionBilletAvion.getText().trim())) {
                     billetAvion = Double.parseDouble(txtAvionBilletAvion.getText().trim());
                     objet.setAvionBilletAvion(billetAvion);
+                    totalBudget += billetAvion;
                     formulaireValide = true;
                 } else {
                     txtAvionBilletAvion.setText("0");
                     formulaireValide = false;
                     HibernateUtil.closeSession();
-
                 }
 
-                double stationnementAerogare = Double.parseDouble(txtAvionStationnementAerogare.getText().trim());
-                objet.setAvionStationnementAerogare(stationnementAerogare);
-
-                double totalBudget = billetAvion + stationnementAerogare;
+                //stationnement aerogare
+                //total budget
                 txtResultatCalcule.setText(totalBudget + "");
 
-                //persistance BD si le formulaire est bien replis
+                //persistance BD si le formulaire est bien remplis
                 if (formulaireValide) {
                     session.save(objet);
                     tx.commit();
+                } else {
+                    JOptionPane.showMessageDialog(null, "SVP entrez en numérique", "Formulaire invalide!",
+                            JOptionPane.ERROR_MESSAGE);
                 }
 
             }
@@ -443,12 +458,7 @@ public class FenPrincipale extends JFrame {
         btnEffacer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-
-                txtCodePostale.setText("");
-                txtAvionBilletAvion.setText("0");
-                txtAvionStationnementAerogare.setText("0");
-                txtResultatCalcule.setText("0");
-
+                champsAZero();
             }
         });
 
@@ -466,6 +476,7 @@ public class FenPrincipale extends JFrame {
         btnQuitter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
+
                 HibernateUtil.closeSession();
                 HibernateUtil.sessionFactory.close();
                 System.exit(0);
@@ -477,10 +488,35 @@ public class FenPrincipale extends JFrame {
         try {
             double d = Double.parseDouble(str);
         } catch (NumberFormatException nfe) {
-            JOptionPane.showMessageDialog(null, null, "SVP entrer un nombre!", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         return true;
+    }
+
+    public void champsAZero() {
+        txtCodePostale.setText("");
+        txtAvionBilletAvion.setText("0");
+        txtAvionStationnementAerogare.setText("0");
+        txtTransportLocationVoiture.setText("0");
+        txtTransportCarburant.setText("0");
+        txtTransportBilletTrain.setText("0");
+        txtTransportTaxi.setText("0");
+        txtHebergementMotel.setText("0");
+        txtHebergementNourriture.setText("0");
+        txtActiviteToursOrganises.setText("0");
+        txtActiviteVieNocturne.setText("0");
+        txtActiviteShopping.setText("0");
+        txtActiviteAutresActivites.setText("0");
+        txtCroisierePrixCroisiere.setText("0");
+        txtCroisiereNourriture.setText("0");
+        txtCroisiereBreuvage.setText("0");
+        txtAutreAssurance.setText("0");
+        txtAutreDocuments.setText("0");
+        txtAutreInternet.setText("0");
+        txtAutreImmunisation.setText("0");
+        txtAutreBagages.setText("0");
+        txtAutreFraisDivers.setText("0");
+        txtResultatCalcule.setText("0");
     }
 
 }

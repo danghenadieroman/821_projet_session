@@ -7,12 +7,18 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import model.Vacance;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import persistence.HibernateUtil;
 
 /**
  *
@@ -179,6 +185,7 @@ public class FenPrincipale extends JFrame {
         lblTitreCalculateur.setVerticalAlignment(SwingConstants.CENTER);
         lblTitreCalculateur.setForeground(Color.WHITE);
         jpTitreCalculateur.setBackground(Color.GRAY);
+        jpTitreCalculateur.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 
         JPanel jpCodePostal = new JPanel(new GridLayout(1, 3));
         jpFormulaire.add(jpCodePostal);
@@ -194,6 +201,7 @@ public class FenPrincipale extends JFrame {
         jpTitreVoyageAvion.add(lblTitreVoyageAvion);
         lblTitreVoyageAvion.setForeground(Color.WHITE);
         jpTitreVoyageAvion.setBackground(Color.GRAY);
+        jpTitreVoyageAvion.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 
         JPanel jpAvionBilletAvion = new JPanel(new GridLayout(1, 3));
         jpFormulaire.add(jpAvionBilletAvion);
@@ -213,6 +221,7 @@ public class FenPrincipale extends JFrame {
         jpTitreTransport.add(lblTitreTransport);
         lblTitreTransport.setForeground(Color.WHITE);
         jpTitreTransport.setBackground(Color.GRAY);
+        jpTitreTransport.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 
         JPanel jpTransportLocationVoiture = new JPanel(new GridLayout(1, 3));
         jpFormulaire.add(jpTransportLocationVoiture);
@@ -244,6 +253,7 @@ public class FenPrincipale extends JFrame {
         jpTitreHebergement.add(lblTitreHebergement);
         lblTitreHebergement.setForeground(Color.WHITE);
         jpTitreHebergement.setBackground(Color.GRAY);
+        jpTitreHebergement.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 
         JPanel jpHebergementMotel = new JPanel(new GridLayout(1, 3));
         jpFormulaire.add(jpHebergementMotel);
@@ -263,6 +273,7 @@ public class FenPrincipale extends JFrame {
         jpTitreActivites.add(lblTitreActivites);
         lblTitreActivites.setForeground(Color.WHITE);
         jpTitreActivites.setBackground(Color.GRAY);
+        jpTitreActivites.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 
         JPanel jpActivitesToursOrganises = new JPanel(new GridLayout(1, 3));
         jpFormulaire.add(jpActivitesToursOrganises);
@@ -294,6 +305,7 @@ public class FenPrincipale extends JFrame {
         jpTitreCroisiere.add(lblTitreCroisiere);
         lblTitreCroisiere.setForeground(Color.WHITE);
         jpTitreCroisiere.setBackground(Color.GRAY);
+        jpTitreCroisiere.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 
         JPanel jpCroisierePrix = new JPanel(new GridLayout(1, 3));
         jpFormulaire.add(jpCroisierePrix);
@@ -319,6 +331,7 @@ public class FenPrincipale extends JFrame {
         jpTitreAutresDepanses.add(lblTitreAutres);
         lblTitreAutres.setForeground(Color.WHITE);
         jpTitreAutresDepanses.setBackground(Color.GRAY);
+        jpTitreAutresDepanses.setBorder(BorderFactory.createLineBorder(Color.WHITE));
 
         JPanel jpAutresDepansesAssurance = new JPanel(new GridLayout(1, 3));
         jpFormulaire.add(jpAutresDepansesAssurance);
@@ -364,6 +377,7 @@ public class FenPrincipale extends JFrame {
         jpResultatCalcule.add(txtResultatCalcule);
         lblResultatCalcule.setFont(new Font("Verdana", Font.BOLD, 14));
         lblResultatCalcule.setForeground(Color.WHITE);
+        lblResultatCalcule.setBorder(BorderFactory.createLineBorder(Color.WHITE));
         jpResultatCalcule.setBackground(Color.GRAY);
 
         //BOUTONS ========================================
@@ -383,7 +397,61 @@ public class FenPrincipale extends JFrame {
         setResizable(true);
         setVisible(true);
 
+        //  =================================
         // Listeners boutons =================================
+        btnCalculer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+
+                boolean formulaireValide = true;
+  
+                Session session = HibernateUtil.currentSession();
+                Transaction tx = session.beginTransaction();
+
+                Vacance objet = new Vacance();
+
+                String codePostal = txtCodePostale.getText().trim();
+                objet.setCodePostale(codePostal);
+
+                double billetAvion = 0;
+                if (isNumeric(txtAvionBilletAvion.getText().trim())) {
+                    billetAvion = Double.parseDouble(txtAvionBilletAvion.getText().trim());
+                    objet.setAvionBilletAvion(billetAvion);
+                    formulaireValide = true;
+                } else {
+                    txtAvionBilletAvion.setText("0");
+                    formulaireValide = false;
+                    HibernateUtil.closeSession();
+
+                }
+
+                double stationnementAerogare = Double.parseDouble(txtAvionStationnementAerogare.getText().trim());
+                objet.setAvionStationnementAerogare(stationnementAerogare);
+
+                double totalBudget = billetAvion + stationnementAerogare;
+                txtResultatCalcule.setText(totalBudget + "");
+
+                //persistance BD si le formulaire est bien replis
+                if (formulaireValide) {
+                    session.save(objet);
+                    tx.commit();
+                }
+
+            }
+        });
+
+        btnEffacer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+
+                txtCodePostale.setText("");
+                txtAvionBilletAvion.setText("0");
+                txtAvionStationnementAerogare.setText("0");
+                txtResultatCalcule.setText("0");
+
+            }
+        });
+
         btnRemplir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -398,9 +466,21 @@ public class FenPrincipale extends JFrame {
         btnQuitter.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
+                HibernateUtil.closeSession();
+                HibernateUtil.sessionFactory.close();
                 System.exit(0);
             }
         });
+    }//constructeur
+
+    public static boolean isNumeric(String str) {
+        try {
+            double d = Double.parseDouble(str);
+        } catch (NumberFormatException nfe) {
+            JOptionPane.showMessageDialog(null, null, "SVP entrer un nombre!", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
     }
 
 }

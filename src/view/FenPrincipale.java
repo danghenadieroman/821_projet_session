@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -95,46 +97,50 @@ public class FenPrincipale extends JFrame {
     private JPanel jpPanel;
     private JPanel jpFormulaire;
 
+    private ResourceBundle bundle;
+
     //constructeur
-    public FenPrincipale() {
+    public FenPrincipale(Locale locale) {
 
-        lblTitreCalculateur = new JLabel("Calculateur budget voyage");
-        lblCodePostale = new JLabel("Code postale  ");
+        bundle = ResourceBundle.getBundle("Internationalisation", locale);
 
-        lblTitreVoyageAvion = new JLabel("Voyage avion");
-        lblAvionBilletAvion = new JLabel("Prix billet avion  ");
-        lblAvionStationnementAerogare = new JLabel("Stationnement aérogare  ");
+        lblTitreCalculateur = new JLabel(bundle.getString("PTitre"));
+        lblCodePostale = new JLabel(bundle.getString("PCodePostale"));
 
-        lblTitreTransport = new JLabel("Transport");
-        lblTransportLocationVoiture = new JLabel("Location voiture  ");
-        lblTransportCarburant = new JLabel("Carburant  ");
-        lblTransportBilletTrain = new JLabel("Billet train  ");
-        lblTransportTaxi = new JLabel("Taxi  ");
+        lblTitreVoyageAvion = new JLabel(bundle.getString("PTitreVoyageAvion"));
+        lblAvionBilletAvion = new JLabel(bundle.getString("PAvionBilletAvion"));
+        lblAvionStationnementAerogare = new JLabel(bundle.getString("PAvionStationnementAerogare"));
 
-        lblTitreHebergement = new JLabel("Hébérgement");
-        lblHebergementMotel = new JLabel("Motel  ");
-        lblHebergementNourriture = new JLabel("Nourriture  ");
+        lblTitreTransport = new JLabel(bundle.getString("PTitreTransport"));
+        lblTransportLocationVoiture = new JLabel(bundle.getString("PTransportLocationVoiture"));
+        lblTransportCarburant = new JLabel(bundle.getString("PTransportCarburant"));
+        lblTransportBilletTrain = new JLabel(bundle.getString("PTransportBilletTrain"));
+        lblTransportTaxi = new JLabel(bundle.getString("PTransportTaxi"));
 
-        lblTitreActivites = new JLabel("Activités ");
-        lblActiviteToursOrganises = new JLabel("Tours organisés  ");
-        lblActiviteVieNocturne = new JLabel("Vie nocturne  ");
-        lblActiviteShopping = new JLabel("Shopping  ");
-        lblActiviteAutresActivites = new JLabel("Autres activités  ");
+        lblTitreHebergement = new JLabel(bundle.getString("PTitreHebergement"));
+        lblHebergementMotel = new JLabel(bundle.getString("PHebergementMotel"));
+        lblHebergementNourriture = new JLabel(bundle.getString("PHebergementNourriture"));
 
-        lblTitreCroisiere = new JLabel("Croisière");
-        lblCroisierePrixCroisiere = new JLabel("Prix croisière  ");
-        lblCroisiereNourriture = new JLabel("Nouriture  ");
-        lblCroisiereBreuvage = new JLabel("Breuvage  ");
+        lblTitreActivites = new JLabel(bundle.getString("PTitreActivites"));
+        lblActiviteToursOrganises = new JLabel(bundle.getString("PActiviteToursOrganises"));
+        lblActiviteVieNocturne = new JLabel(bundle.getString("PActiviteVieNocturne"));
+        lblActiviteShopping = new JLabel(bundle.getString("PActiviteShopping"));
+        lblActiviteAutresActivites = new JLabel(bundle.getString("PActiviteAutresActivites"));
 
-        lblTitreAutres = new JLabel("Autres dépances");
-        lblAutreAssurance = new JLabel("Assurance  ");
-        lblAutreDocuments = new JLabel("Documents  ");
-        lblAutreImmunisation = new JLabel("Immunisation  ");
-        lblAutreInternet = new JLabel("Internet  ");
-        lblAutreBagages = new JLabel("Bagages  ");
-        lblAutreFraisDivers = new JLabel("Frais divers  ");
+        lblTitreCroisiere = new JLabel(bundle.getString("PTitreCroisiere"));
+        lblCroisierePrixCroisiere = new JLabel(bundle.getString("PCroisierePrixCroisiere"));
+        lblCroisiereNourriture = new JLabel(bundle.getString("PCroisiereNourriture"));
+        lblCroisiereBreuvage = new JLabel(bundle.getString("PCroisiereBreuvage"));
 
-        lblResultatCalcule = new JLabel("Resultat calcule  ");
+        lblTitreAutres = new JLabel(bundle.getString("PTitreAutres"));
+        lblAutreAssurance = new JLabel(bundle.getString("PAutreAssurance"));
+        lblAutreDocuments = new JLabel(bundle.getString("PAutreDocuments"));
+        lblAutreImmunisation = new JLabel(bundle.getString("PAutreImmunisation"));
+        lblAutreInternet = new JLabel(bundle.getString("PAutreInternet"));
+        lblAutreBagages = new JLabel(bundle.getString("PAutreBagages"));
+        lblAutreFraisDivers = new JLabel(bundle.getString("PAutreFraisDivers"));
+
+        lblResultatCalcule = new JLabel(bundle.getString("PResultatCalcule"));
 
         //
         //champs formulaire
@@ -440,6 +446,247 @@ public class FenPrincipale extends JFrame {
                 }
 
                 //stationnement aerogare
+                double stationnementAerogare = 0;
+                if (isNumeric(txtAvionStationnementAerogare.getText().trim())) {
+                    stationnementAerogare = Double.parseDouble(txtAvionStationnementAerogare.getText().trim());
+                    objet.setAvionStationnementAerogare(stationnementAerogare);
+                    totalBudget += stationnementAerogare;
+                    formulaireValide = true;
+                } else {
+                    txtAvionStationnementAerogare.setText("0");
+                    formulaireValide = false;
+                    HibernateUtil.closeSession();
+                }
+
+                //location voiture
+                double transportLocationVoiture = 0;
+                if (isNumeric(txtTransportLocationVoiture.getText().trim())) {
+                    transportLocationVoiture = Double.parseDouble(txtTransportLocationVoiture.getText().trim());
+                    objet.setAvionBilletAvion(transportLocationVoiture);
+                    totalBudget += transportLocationVoiture;
+                    formulaireValide = true;
+                } else {
+                    txtTransportLocationVoiture.setText("0");
+                    formulaireValide = false;
+                    HibernateUtil.closeSession();
+                }
+
+                //carburant
+                double transportCarburant = 0;
+                if (isNumeric(txtTransportCarburant.getText().trim())) {
+                    transportCarburant = Double.parseDouble(txtTransportCarburant.getText().trim());
+                    objet.setAvionBilletAvion(transportCarburant);
+                    totalBudget += transportCarburant;
+                    formulaireValide = true;
+                } else {
+                    txtTransportCarburant.setText("0");
+                    formulaireValide = false;
+                    HibernateUtil.closeSession();
+                }
+                //Billet train
+                double transportBilletTrain = 0;
+                if (isNumeric(txtTransportBilletTrain.getText().trim())) {
+                    transportBilletTrain = Double.parseDouble(txtTransportBilletTrain.getText().trim());
+                    objet.setAvionBilletAvion(transportBilletTrain);
+                    totalBudget += transportBilletTrain;
+                    formulaireValide = true;
+                } else {
+                    txtTransportBilletTrain.setText("0");
+                    formulaireValide = false;
+                    HibernateUtil.closeSession();
+                }
+                //Taxi
+                double transportTaxi = 0;
+                if (isNumeric(txtTransportTaxi.getText().trim())) {
+                    transportTaxi = Double.parseDouble(txtTransportTaxi.getText().trim());
+                    objet.setAvionBilletAvion(transportTaxi);
+                    totalBudget += transportTaxi;
+                    formulaireValide = true;
+                } else {
+                    txtTransportTaxi.setText("0");
+                    formulaireValide = false;
+                    HibernateUtil.closeSession();
+                }
+                //Motel
+                double hebergementMotel = 0;
+                if (isNumeric(txtHebergementMotel.getText().trim())) {
+                    hebergementMotel = Double.parseDouble(txtHebergementMotel.getText().trim());
+                    objet.setAvionBilletAvion(hebergementMotel);
+                    totalBudget += hebergementMotel;
+                    formulaireValide = true;
+                } else {
+                    txtHebergementMotel.setText("0");
+                    formulaireValide = false;
+                    HibernateUtil.closeSession();
+                }
+                //Nourriture
+                double hebergementNourriture = 0;
+                if (isNumeric(txtHebergementNourriture.getText().trim())) {
+                    hebergementNourriture = Double.parseDouble(txtHebergementNourriture.getText().trim());
+                    objet.setAvionBilletAvion(hebergementNourriture);
+                    totalBudget += hebergementNourriture;
+                    formulaireValide = true;
+                } else {
+                    txtHebergementNourriture.setText("0");
+                    formulaireValide = false;
+                    HibernateUtil.closeSession();
+                }
+                //Tours organisés
+                double activiteToursOrganises = 0;
+                if (isNumeric(txtActiviteToursOrganises.getText().trim())) {
+                    activiteToursOrganises = Double.parseDouble(txtActiviteToursOrganises.getText().trim());
+                    objet.setAvionBilletAvion(activiteToursOrganises);
+                    totalBudget += activiteToursOrganises;
+                    formulaireValide = true;
+                } else {
+                    txtActiviteToursOrganises.setText("0");
+                    formulaireValide = false;
+                    HibernateUtil.closeSession();
+                }
+                //Vie nocturne
+                double activiteVieNocturne = 0;
+                if (isNumeric(txtActiviteVieNocturne.getText().trim())) {
+                    activiteVieNocturne = Double.parseDouble(txtActiviteVieNocturne.getText().trim());
+                    objet.setAvionBilletAvion(activiteVieNocturne);
+                    totalBudget += activiteVieNocturne;
+                    formulaireValide = true;
+                } else {
+                    txtActiviteVieNocturne.setText("0");
+                    formulaireValide = false;
+                    HibernateUtil.closeSession();
+                }
+                //Shopping
+                double activiteShopping = 0;
+                if (isNumeric(txtActiviteShopping.getText().trim())) {
+                    activiteShopping = Double.parseDouble(txtActiviteShopping.getText().trim());
+                    objet.setAvionBilletAvion(activiteShopping);
+                    totalBudget += activiteShopping;
+                    formulaireValide = true;
+                } else {
+                    txtActiviteShopping.setText("0");
+                    formulaireValide = false;
+                    HibernateUtil.closeSession();
+                }
+                //Autres activités
+                double activiteAutresActivites = 0;
+                if (isNumeric(txtActiviteAutresActivites.getText().trim())) {
+                    activiteAutresActivites = Double.parseDouble(txtActiviteAutresActivites.getText().trim());
+                    objet.setAvionBilletAvion(activiteAutresActivites);
+                    totalBudget += activiteAutresActivites;
+                    formulaireValide = true;
+                } else {
+                    txtActiviteAutresActivites.setText("0");
+                    formulaireValide = false;
+                    HibernateUtil.closeSession();
+                }
+                //Prix croisière
+                double croisierePrixCroisiere = 0;
+                if (isNumeric(txtCroisierePrixCroisiere.getText().trim())) {
+                    croisierePrixCroisiere = Double.parseDouble(txtCroisierePrixCroisiere.getText().trim());
+                    objet.setAvionBilletAvion(croisierePrixCroisiere);
+                    totalBudget += croisierePrixCroisiere;
+                    formulaireValide = true;
+                } else {
+                    txtCroisierePrixCroisiere.setText("0");
+                    formulaireValide = false;
+                    HibernateUtil.closeSession();
+                }
+                //Nourriture
+                double croisiereNourriture = 0;
+                if (isNumeric(txtCroisiereNourriture.getText().trim())) {
+                    croisiereNourriture = Double.parseDouble(txtCroisiereNourriture.getText().trim());
+                    objet.setAvionBilletAvion(croisiereNourriture);
+                    totalBudget += croisiereNourriture;
+                    formulaireValide = true;
+                } else {
+                    txtCroisiereNourriture.setText("0");
+                    formulaireValide = false;
+                    HibernateUtil.closeSession();
+                }
+                //Breuvages
+                double croisiereBreuvage = 0;
+                if (isNumeric(txtCroisiereBreuvage.getText().trim())) {
+                    croisiereBreuvage = Double.parseDouble(txtCroisiereBreuvage.getText().trim());
+                    objet.setAvionBilletAvion(croisiereBreuvage);
+                    totalBudget += croisiereBreuvage;
+                    formulaireValide = true;
+                } else {
+                    txtCroisiereBreuvage.setText("0");
+                    formulaireValide = false;
+                    HibernateUtil.closeSession();
+                }
+                //Assurance voyage
+                double autreAssurance = 0;
+                if (isNumeric(txtAutreAssurance.getText().trim())) {
+                    autreAssurance = Double.parseDouble(txtAutreAssurance.getText().trim());
+                    objet.setAvionBilletAvion(autreAssurance);
+                    totalBudget += autreAssurance;
+                    formulaireValide = true;
+                } else {
+                    txtAutreAssurance.setText("0");
+                    formulaireValide = false;
+                    HibernateUtil.closeSession();
+                }
+                //Documents
+                double autreDocuments = 0;
+                if (isNumeric(txtAutreDocuments.getText().trim())) {
+                    autreDocuments = Double.parseDouble(txtAutreDocuments.getText().trim());
+                    objet.setAvionBilletAvion(autreDocuments);
+                    totalBudget += autreDocuments;
+                    formulaireValide = true;
+                } else {
+                    txtAutreDocuments.setText("0");
+                    formulaireValide = false;
+                    HibernateUtil.closeSession();
+                }
+                //Immunisation
+                double autreImmunisation = 0;
+                if (isNumeric(txtAutreImmunisation.getText().trim())) {
+                    autreImmunisation = Double.parseDouble(txtAutreImmunisation.getText().trim());
+                    objet.setAvionBilletAvion(autreImmunisation);
+                    totalBudget += autreImmunisation;
+                    formulaireValide = true;
+                } else {
+                    txtAutreImmunisation.setText("0");
+                    formulaireValide = false;
+                    HibernateUtil.closeSession();
+                }
+                //Internet
+                double autreInternet = 0;
+                if (isNumeric(txtAutreInternet.getText().trim())) {
+                    autreInternet = Double.parseDouble(txtAutreInternet.getText().trim());
+                    objet.setAvionBilletAvion(autreInternet);
+                    totalBudget += autreInternet;
+                    formulaireValide = true;
+                } else {
+                    txtAutreInternet.setText("0");
+                    formulaireValide = false;
+                    HibernateUtil.closeSession();
+                }
+                //Bagages
+                double autreBagages = 0;
+                if (isNumeric(txtAutreBagages.getText().trim())) {
+                    autreBagages = Double.parseDouble(txtAutreBagages.getText().trim());
+                    objet.setAvionBilletAvion(autreBagages);
+                    totalBudget += autreBagages;
+                    formulaireValide = true;
+                } else {
+                    txtAutreBagages.setText("0");
+                    formulaireValide = false;
+                    HibernateUtil.closeSession();
+                }
+                //Frais divers
+                double autreFraisDivers = 0;
+                if (isNumeric(txtAutreFraisDivers.getText().trim())) {
+                    autreFraisDivers = Double.parseDouble(txtAutreFraisDivers.getText().trim());
+                    objet.setAvionBilletAvion(autreFraisDivers);
+                    totalBudget += autreFraisDivers;
+                    formulaireValide = true;
+                } else {
+                    txtAutreFraisDivers.setText("0");
+                    formulaireValide = false;
+                    HibernateUtil.closeSession();
+                }
                 //total budget
                 txtResultatCalcule.setText(totalBudget + "");
 

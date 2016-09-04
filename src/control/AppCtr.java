@@ -1,5 +1,6 @@
 package control;
 
+import java.util.Locale;
 import view.FenPrincipale;
 
 /**
@@ -16,7 +17,10 @@ public class AppCtr {
      */
     public static void main(String[] args) {
 
-        FenPrincipale fenetre = new FenPrincipale();
+        Locale locale = new Locale("fr", "CA");
+//        Locale locale = new Locale("en", "CA");
+
+        FenPrincipale fenetre = new FenPrincipale(locale);
 
     }
 

@@ -28,9 +28,8 @@ import persistence.HibernateUtil;
 public class FenPrincipale extends JFrame {
 
     //attributes
-    //LO
-    private final int LONGEUR = 5;
-    private final int ESPACE_DROITE = 50;
+    //constantes
+    private final int LONGEUR_CHAMP_TEXTE = 5;
 
     //labels fenetre
     private JLabel lblTitreCalculateur;
@@ -144,35 +143,35 @@ public class FenPrincipale extends JFrame {
 
         //
         //champs formulaire
-        txtCodePostale = new JTextField(LONGEUR);
-        txtAvionBilletAvion = new JTextField(LONGEUR);
-        txtAvionStationnementAerogare = new JTextField(LONGEUR);
-        txtTransportLocationVoiture = new JTextField(LONGEUR);
-        txtTransportCarburant = new JTextField(LONGEUR);
-        txtTransportBilletTrain = new JTextField(LONGEUR);
-        txtTransportTaxi = new JTextField(LONGEUR);
-        txtHebergementMotel = new JTextField(LONGEUR);
-        txtHebergementNourriture = new JTextField(LONGEUR);
-        txtActiviteToursOrganises = new JTextField(LONGEUR);
-        txtActiviteVieNocturne = new JTextField(LONGEUR);
-        txtActiviteShopping = new JTextField(LONGEUR);
-        txtActiviteAutresActivites = new JTextField(LONGEUR);
-        txtCroisierePrixCroisiere = new JTextField(LONGEUR);
-        txtCroisiereNourriture = new JTextField(LONGEUR);
-        txtCroisiereBreuvage = new JTextField(LONGEUR);
-        txtAutreAssurance = new JTextField(LONGEUR);
-        txtAutreDocuments = new JTextField(LONGEUR);
-        txtAutreImmunisation = new JTextField(LONGEUR);
-        txtAutreInternet = new JTextField(LONGEUR);
-        txtAutreBagages = new JTextField(LONGEUR);
-        txtAutreFraisDivers = new JTextField(LONGEUR);
-        txtResultatCalcule = new JTextField(LONGEUR);
+        txtCodePostale = new JTextField(LONGEUR_CHAMP_TEXTE);
+        txtAvionBilletAvion = new JTextField(LONGEUR_CHAMP_TEXTE);
+        txtAvionStationnementAerogare = new JTextField(LONGEUR_CHAMP_TEXTE);
+        txtTransportLocationVoiture = new JTextField(LONGEUR_CHAMP_TEXTE);
+        txtTransportCarburant = new JTextField(LONGEUR_CHAMP_TEXTE);
+        txtTransportBilletTrain = new JTextField(LONGEUR_CHAMP_TEXTE);
+        txtTransportTaxi = new JTextField(LONGEUR_CHAMP_TEXTE);
+        txtHebergementMotel = new JTextField(LONGEUR_CHAMP_TEXTE);
+        txtHebergementNourriture = new JTextField(LONGEUR_CHAMP_TEXTE);
+        txtActiviteToursOrganises = new JTextField(LONGEUR_CHAMP_TEXTE);
+        txtActiviteVieNocturne = new JTextField(LONGEUR_CHAMP_TEXTE);
+        txtActiviteShopping = new JTextField(LONGEUR_CHAMP_TEXTE);
+        txtActiviteAutresActivites = new JTextField(LONGEUR_CHAMP_TEXTE);
+        txtCroisierePrixCroisiere = new JTextField(LONGEUR_CHAMP_TEXTE);
+        txtCroisiereNourriture = new JTextField(LONGEUR_CHAMP_TEXTE);
+        txtCroisiereBreuvage = new JTextField(LONGEUR_CHAMP_TEXTE);
+        txtAutreAssurance = new JTextField(LONGEUR_CHAMP_TEXTE);
+        txtAutreDocuments = new JTextField(LONGEUR_CHAMP_TEXTE);
+        txtAutreImmunisation = new JTextField(LONGEUR_CHAMP_TEXTE);
+        txtAutreInternet = new JTextField(LONGEUR_CHAMP_TEXTE);
+        txtAutreBagages = new JTextField(LONGEUR_CHAMP_TEXTE);
+        txtAutreFraisDivers = new JTextField(LONGEUR_CHAMP_TEXTE);
+        txtResultatCalcule = new JTextField(LONGEUR_CHAMP_TEXTE);
 
         //boutons
-        btnCalculer = new JButton("Calculer");
-        btnEffacer = new JButton("Effacer");
-        btnQuitter = new JButton("Quitter");
-        btnRemplir = new JButton("Remplir");
+        btnCalculer = new JButton(bundle.getString("PCalculer"));
+        btnEffacer = new JButton(bundle.getString("PEffacer"));
+        btnQuitter = new JButton(bundle.getString("PQuitter"));
+        btnRemplir = new JButton(bundle.getString("PRemplir"));
 
         //paneaux 
         jpPanel = new JPanel();
@@ -423,14 +422,18 @@ public class FenPrincipale extends JFrame {
                 //code postal
                 String codePostal = txtCodePostale.getText().trim();
                 if (codePostal.length() == 0) {
-                    JOptionPane.showMessageDialog(null, "Code postale est obligatoire", "Formulaire invalide!",
+                    JOptionPane.showMessageDialog(null,
+                            bundle.getString("PMessageErreurCodePostaleOgligatoire"),
+                            bundle.getString("PMessageTitreFormulaireInvalide"),
                             JOptionPane.ERROR_MESSAGE);
                     formulaireValide = false;
                     codePostaleValide = false;
                     HibernateUtil.closeSession();
 
                 } else if (codePostal.length() < 6) {
-                    JOptionPane.showMessageDialog(null, "Code postale mal remplis", "Formulaire invalide!",
+                    JOptionPane.showMessageDialog(null,
+                            bundle.getString("PMessageErreurCodePostalMalRemplis"),
+                            bundle.getString("PMessageTitreFormulaireInvalide"),
                             JOptionPane.ERROR_MESSAGE);
                     formulaireValide = false;
                     codePostaleValide = false;
@@ -683,7 +686,9 @@ public class FenPrincipale extends JFrame {
                     session.save(objet);
                     tx.commit();
                 } else if (codePostaleValide) {
-                    JOptionPane.showMessageDialog(null, "Toutes les champes doivent être remplir en numérique", "Formulaire invalide!",
+                    JOptionPane.showMessageDialog(null,
+                            bundle.getString("PMessageErreurChamps"),
+                            bundle.getString("PMessageTitreFormulaireInvalide"),
                             JOptionPane.ERROR_MESSAGE);
                 }
 
@@ -697,6 +702,8 @@ public class FenPrincipale extends JFrame {
             }
         });
 
+        //temporaire pour faciliter les tests; 
+        //il faut enlever apres le deployement
         btnRemplir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -719,6 +726,7 @@ public class FenPrincipale extends JFrame {
         });
     }//constructeur
 
+    //verification si numerique
     public static boolean isNumeric(String str) {
         try {
             double d = Double.parseDouble(str);
@@ -728,6 +736,7 @@ public class FenPrincipale extends JFrame {
         return true;
     }
 
+    //toutes les champs mettre à zéro
     public void champsAZero() {
         txtCodePostale.setText("");
         txtAvionBilletAvion.setText("0");
@@ -753,5 +762,4 @@ public class FenPrincipale extends JFrame {
         txtAutreFraisDivers.setText("0");
         txtResultatCalcule.setText("0");
     }
-
 }

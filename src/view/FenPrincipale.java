@@ -412,6 +412,7 @@ public class FenPrincipale extends JFrame {
             public void actionPerformed(ActionEvent ae) {
 
                 boolean formulaireValide = true;
+                boolean codePostaleValide = true;
                 double totalBudget = 0;
 
                 Session session = HibernateUtil.currentSession();
@@ -424,9 +425,17 @@ public class FenPrincipale extends JFrame {
                 if (codePostal.length() == 0) {
                     JOptionPane.showMessageDialog(null, "Code postale est obligatoire", "Formulaire invalide!",
                             JOptionPane.ERROR_MESSAGE);
+                    formulaireValide = false;
+                    codePostaleValide = false;
+                    HibernateUtil.closeSession();
+
                 } else if (codePostal.length() < 6) {
                     JOptionPane.showMessageDialog(null, "Code postale mal remplis", "Formulaire invalide!",
                             JOptionPane.ERROR_MESSAGE);
+                    formulaireValide = false;
+                    codePostaleValide = false;
+                    HibernateUtil.closeSession();
+
                 } else {
                     objet.setCodePostale(codePostal);
 
@@ -438,7 +447,6 @@ public class FenPrincipale extends JFrame {
                     billetAvion = Double.parseDouble(txtAvionBilletAvion.getText().trim());
                     objet.setAvionBilletAvion(billetAvion);
                     totalBudget += billetAvion;
-                    formulaireValide = true;
                 } else {
                     txtAvionBilletAvion.setText("0");
                     formulaireValide = false;
@@ -451,7 +459,6 @@ public class FenPrincipale extends JFrame {
                     stationnementAerogare = Double.parseDouble(txtAvionStationnementAerogare.getText().trim());
                     objet.setAvionStationnementAerogare(stationnementAerogare);
                     totalBudget += stationnementAerogare;
-                    formulaireValide = true;
                 } else {
                     txtAvionStationnementAerogare.setText("0");
                     formulaireValide = false;
@@ -462,9 +469,8 @@ public class FenPrincipale extends JFrame {
                 double transportLocationVoiture = 0;
                 if (isNumeric(txtTransportLocationVoiture.getText().trim())) {
                     transportLocationVoiture = Double.parseDouble(txtTransportLocationVoiture.getText().trim());
-                    objet.setAvionBilletAvion(transportLocationVoiture);
+                    objet.setTransportLocationVoiture(transportLocationVoiture);
                     totalBudget += transportLocationVoiture;
-                    formulaireValide = true;
                 } else {
                     txtTransportLocationVoiture.setText("0");
                     formulaireValide = false;
@@ -475,9 +481,8 @@ public class FenPrincipale extends JFrame {
                 double transportCarburant = 0;
                 if (isNumeric(txtTransportCarburant.getText().trim())) {
                     transportCarburant = Double.parseDouble(txtTransportCarburant.getText().trim());
-                    objet.setAvionBilletAvion(transportCarburant);
+                    objet.setTransportCarburant(transportCarburant);
                     totalBudget += transportCarburant;
-                    formulaireValide = true;
                 } else {
                     txtTransportCarburant.setText("0");
                     formulaireValide = false;
@@ -487,9 +492,8 @@ public class FenPrincipale extends JFrame {
                 double transportBilletTrain = 0;
                 if (isNumeric(txtTransportBilletTrain.getText().trim())) {
                     transportBilletTrain = Double.parseDouble(txtTransportBilletTrain.getText().trim());
-                    objet.setAvionBilletAvion(transportBilletTrain);
+                    objet.setTransportBilletTrain(transportBilletTrain);
                     totalBudget += transportBilletTrain;
-                    formulaireValide = true;
                 } else {
                     txtTransportBilletTrain.setText("0");
                     formulaireValide = false;
@@ -499,9 +503,8 @@ public class FenPrincipale extends JFrame {
                 double transportTaxi = 0;
                 if (isNumeric(txtTransportTaxi.getText().trim())) {
                     transportTaxi = Double.parseDouble(txtTransportTaxi.getText().trim());
-                    objet.setAvionBilletAvion(transportTaxi);
+                    objet.setTransportTaxi(transportTaxi);
                     totalBudget += transportTaxi;
-                    formulaireValide = true;
                 } else {
                     txtTransportTaxi.setText("0");
                     formulaireValide = false;
@@ -511,9 +514,8 @@ public class FenPrincipale extends JFrame {
                 double hebergementMotel = 0;
                 if (isNumeric(txtHebergementMotel.getText().trim())) {
                     hebergementMotel = Double.parseDouble(txtHebergementMotel.getText().trim());
-                    objet.setAvionBilletAvion(hebergementMotel);
+                    objet.setHebergementMotel(hebergementMotel);
                     totalBudget += hebergementMotel;
-                    formulaireValide = true;
                 } else {
                     txtHebergementMotel.setText("0");
                     formulaireValide = false;
@@ -523,9 +525,8 @@ public class FenPrincipale extends JFrame {
                 double hebergementNourriture = 0;
                 if (isNumeric(txtHebergementNourriture.getText().trim())) {
                     hebergementNourriture = Double.parseDouble(txtHebergementNourriture.getText().trim());
-                    objet.setAvionBilletAvion(hebergementNourriture);
+                    objet.setHebergementNourriture(hebergementNourriture);
                     totalBudget += hebergementNourriture;
-                    formulaireValide = true;
                 } else {
                     txtHebergementNourriture.setText("0");
                     formulaireValide = false;
@@ -535,9 +536,8 @@ public class FenPrincipale extends JFrame {
                 double activiteToursOrganises = 0;
                 if (isNumeric(txtActiviteToursOrganises.getText().trim())) {
                     activiteToursOrganises = Double.parseDouble(txtActiviteToursOrganises.getText().trim());
-                    objet.setAvionBilletAvion(activiteToursOrganises);
+                    objet.setActiviteToursOrganises(activiteToursOrganises);
                     totalBudget += activiteToursOrganises;
-                    formulaireValide = true;
                 } else {
                     txtActiviteToursOrganises.setText("0");
                     formulaireValide = false;
@@ -547,9 +547,8 @@ public class FenPrincipale extends JFrame {
                 double activiteVieNocturne = 0;
                 if (isNumeric(txtActiviteVieNocturne.getText().trim())) {
                     activiteVieNocturne = Double.parseDouble(txtActiviteVieNocturne.getText().trim());
-                    objet.setAvionBilletAvion(activiteVieNocturne);
+                    objet.setActiviteVieNocturne(activiteVieNocturne);
                     totalBudget += activiteVieNocturne;
-                    formulaireValide = true;
                 } else {
                     txtActiviteVieNocturne.setText("0");
                     formulaireValide = false;
@@ -559,9 +558,8 @@ public class FenPrincipale extends JFrame {
                 double activiteShopping = 0;
                 if (isNumeric(txtActiviteShopping.getText().trim())) {
                     activiteShopping = Double.parseDouble(txtActiviteShopping.getText().trim());
-                    objet.setAvionBilletAvion(activiteShopping);
+                    objet.setActiviteShopping(activiteShopping);
                     totalBudget += activiteShopping;
-                    formulaireValide = true;
                 } else {
                     txtActiviteShopping.setText("0");
                     formulaireValide = false;
@@ -571,9 +569,8 @@ public class FenPrincipale extends JFrame {
                 double activiteAutresActivites = 0;
                 if (isNumeric(txtActiviteAutresActivites.getText().trim())) {
                     activiteAutresActivites = Double.parseDouble(txtActiviteAutresActivites.getText().trim());
-                    objet.setAvionBilletAvion(activiteAutresActivites);
+                    objet.setActiviteAutresActivites(activiteAutresActivites);
                     totalBudget += activiteAutresActivites;
-                    formulaireValide = true;
                 } else {
                     txtActiviteAutresActivites.setText("0");
                     formulaireValide = false;
@@ -583,9 +580,8 @@ public class FenPrincipale extends JFrame {
                 double croisierePrixCroisiere = 0;
                 if (isNumeric(txtCroisierePrixCroisiere.getText().trim())) {
                     croisierePrixCroisiere = Double.parseDouble(txtCroisierePrixCroisiere.getText().trim());
-                    objet.setAvionBilletAvion(croisierePrixCroisiere);
+                    objet.setCroisierePrixCroisiere(croisierePrixCroisiere);
                     totalBudget += croisierePrixCroisiere;
-                    formulaireValide = true;
                 } else {
                     txtCroisierePrixCroisiere.setText("0");
                     formulaireValide = false;
@@ -595,9 +591,8 @@ public class FenPrincipale extends JFrame {
                 double croisiereNourriture = 0;
                 if (isNumeric(txtCroisiereNourriture.getText().trim())) {
                     croisiereNourriture = Double.parseDouble(txtCroisiereNourriture.getText().trim());
-                    objet.setAvionBilletAvion(croisiereNourriture);
+                    objet.setCroisiereNourriture(croisiereNourriture);
                     totalBudget += croisiereNourriture;
-                    formulaireValide = true;
                 } else {
                     txtCroisiereNourriture.setText("0");
                     formulaireValide = false;
@@ -607,9 +602,8 @@ public class FenPrincipale extends JFrame {
                 double croisiereBreuvage = 0;
                 if (isNumeric(txtCroisiereBreuvage.getText().trim())) {
                     croisiereBreuvage = Double.parseDouble(txtCroisiereBreuvage.getText().trim());
-                    objet.setAvionBilletAvion(croisiereBreuvage);
+                    objet.setCroisiereBreuvage(croisiereBreuvage);
                     totalBudget += croisiereBreuvage;
-                    formulaireValide = true;
                 } else {
                     txtCroisiereBreuvage.setText("0");
                     formulaireValide = false;
@@ -619,9 +613,8 @@ public class FenPrincipale extends JFrame {
                 double autreAssurance = 0;
                 if (isNumeric(txtAutreAssurance.getText().trim())) {
                     autreAssurance = Double.parseDouble(txtAutreAssurance.getText().trim());
-                    objet.setAvionBilletAvion(autreAssurance);
+                    objet.setAutreAssurance(autreAssurance);
                     totalBudget += autreAssurance;
-                    formulaireValide = true;
                 } else {
                     txtAutreAssurance.setText("0");
                     formulaireValide = false;
@@ -631,9 +624,8 @@ public class FenPrincipale extends JFrame {
                 double autreDocuments = 0;
                 if (isNumeric(txtAutreDocuments.getText().trim())) {
                     autreDocuments = Double.parseDouble(txtAutreDocuments.getText().trim());
-                    objet.setAvionBilletAvion(autreDocuments);
+                    objet.setAutreDocuments(autreDocuments);
                     totalBudget += autreDocuments;
-                    formulaireValide = true;
                 } else {
                     txtAutreDocuments.setText("0");
                     formulaireValide = false;
@@ -643,9 +635,8 @@ public class FenPrincipale extends JFrame {
                 double autreImmunisation = 0;
                 if (isNumeric(txtAutreImmunisation.getText().trim())) {
                     autreImmunisation = Double.parseDouble(txtAutreImmunisation.getText().trim());
-                    objet.setAvionBilletAvion(autreImmunisation);
+                    objet.setAutreImmunisation(autreImmunisation);
                     totalBudget += autreImmunisation;
-                    formulaireValide = true;
                 } else {
                     txtAutreImmunisation.setText("0");
                     formulaireValide = false;
@@ -655,9 +646,8 @@ public class FenPrincipale extends JFrame {
                 double autreInternet = 0;
                 if (isNumeric(txtAutreInternet.getText().trim())) {
                     autreInternet = Double.parseDouble(txtAutreInternet.getText().trim());
-                    objet.setAvionBilletAvion(autreInternet);
+                    objet.setAutreInternet(autreInternet);
                     totalBudget += autreInternet;
-                    formulaireValide = true;
                 } else {
                     txtAutreInternet.setText("0");
                     formulaireValide = false;
@@ -667,9 +657,8 @@ public class FenPrincipale extends JFrame {
                 double autreBagages = 0;
                 if (isNumeric(txtAutreBagages.getText().trim())) {
                     autreBagages = Double.parseDouble(txtAutreBagages.getText().trim());
-                    objet.setAvionBilletAvion(autreBagages);
+                    objet.setAutreBagages(autreBagages);
                     totalBudget += autreBagages;
-                    formulaireValide = true;
                 } else {
                     txtAutreBagages.setText("0");
                     formulaireValide = false;
@@ -679,9 +668,8 @@ public class FenPrincipale extends JFrame {
                 double autreFraisDivers = 0;
                 if (isNumeric(txtAutreFraisDivers.getText().trim())) {
                     autreFraisDivers = Double.parseDouble(txtAutreFraisDivers.getText().trim());
-                    objet.setAvionBilletAvion(autreFraisDivers);
+                    objet.setAutreFraisDivers(autreFraisDivers);
                     totalBudget += autreFraisDivers;
-                    formulaireValide = true;
                 } else {
                     txtAutreFraisDivers.setText("0");
                     formulaireValide = false;
@@ -694,8 +682,8 @@ public class FenPrincipale extends JFrame {
                 if (formulaireValide) {
                     session.save(objet);
                     tx.commit();
-                } else {
-                    JOptionPane.showMessageDialog(null, "SVP entrez en numérique", "Formulaire invalide!",
+                } else if (codePostaleValide) {
+                    JOptionPane.showMessageDialog(null, "Toutes les valeurs doivent être en numérique", "Formulaire invalide!",
                             JOptionPane.ERROR_MESSAGE);
                 }
 

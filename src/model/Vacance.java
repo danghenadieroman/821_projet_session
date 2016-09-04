@@ -1,10 +1,12 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Administrateur
  */
-public class Vacance {
+public class Vacance implements Serializable {
 
     private int id;
     private String codePostale;
@@ -216,7 +218,5 @@ public class Vacance {
     public void setAutreFraisDivers(double autreFraisDivers) {
         this.autreFraisDivers = autreFraisDivers;
     }
-
-
 
 }

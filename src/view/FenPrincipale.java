@@ -92,12 +92,12 @@ public class FenPrincipale extends JFrame {
     private JButton btnCalculer;
     private JButton btnEffacer;
     private JButton btnQuitter;
-    private JButton btnRemplir;//pour les tests
+    private JButton btnRemplir;//pour faciliter les tests; a la fin il doit être enlever
 
     private JPanel jpPanel;
     private JPanel jpFormulaire;
 
-    private ResourceBundle bundle;
+    private ResourceBundle bundle;//Internationalisation
 
     //constructeur
     public FenPrincipale(Locale locale) {
@@ -394,7 +394,7 @@ public class FenPrincipale extends JFrame {
         jpBoutons.add(btnRemplir);
 
         //parametres de la fenetre ========================================
-        setTitle("Calculateur budget voyage");
+        setTitle(bundle.getString("PTitreFenetre"));
         setContentPane(jpPanel);
         setSize(400, 900);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -683,7 +683,7 @@ public class FenPrincipale extends JFrame {
                     session.save(objet);
                     tx.commit();
                 } else if (codePostaleValide) {
-                    JOptionPane.showMessageDialog(null, "Toutes les valeurs doivent être en numérique", "Formulaire invalide!",
+                    JOptionPane.showMessageDialog(null, "Toutes les champes doivent être remplir en numérique", "Formulaire invalide!",
                             JOptionPane.ERROR_MESSAGE);
                 }
 
